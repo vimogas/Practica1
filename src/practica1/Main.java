@@ -92,8 +92,13 @@ public class Main {
                      
                      MuestraCesiones(listaCesiones);
                      
-                    break;               
-                 case "7" : // Salir del programa
+                    break;   
+                 case "7" : // Incrementar gastos
+                     
+                     IncrementaGastos(listaMotos);
+                     
+                    break; 
+                 case "8" : // Salir del programa
                      
                      crearFichero(listaSocios,listaCesiones);
                      System.exit(0);
@@ -114,11 +119,11 @@ public class Main {
     {
         ArrayList<Moto> listaMotos = new ArrayList<>();
         
-        listaMotos.add(new Moto("Vespa","primavera",125,2500,"1234ASD"));
-        listaMotos.add(new Moto("Motobenae","Poney AG",70,2300,"4567QWE"));
-        listaMotos.add(new Moto("Bultaco","",200,1200,"7542ERT"));
-        listaMotos.add(new Moto("Guzzi","Cardelino 73", 75,1200,"4256JKL"));
-        listaMotos.add(new Moto("Ducati","mini",49,4000,"7541FGH"));
+        listaMotos.add(new Moto("Vespa","primavera",125,2500,200,"1234ASD"));
+        listaMotos.add(new Moto("Motobenae","Poney AG",70,2300,100,"4567QWE"));
+        listaMotos.add(new Moto("Bultaco","",200,1200,300,"7542ERT"));
+        listaMotos.add(new Moto("Guzzi","Cardelino 73", 75,1200,200,"4256JKL"));
+        listaMotos.add(new Moto("Ducati","mini",49,4000,350,"7541FGH"));
         
         return listaMotos ;
     }
@@ -202,7 +207,8 @@ public class Main {
                          "   4. Listar en pantalla los miembros con motos en posesión \n"+
                          "   5. Listar todas las motos \n"+
                          "   6. Mostrar las cesiones realizadas \n"+
-                         "   7. Salir del programa \n");
+                         "   7. Incrementar otros gastos de una motocicleta \n"+
+                         "   8. Salir del programa \n");
         
         System.out.print("Opcion: ");
         
@@ -451,6 +457,50 @@ public class Main {
 		System.out.println("Mensaje de la excepción: " + ex.getMessage());
 	}
        
+   }
+   public static void IncrementaGastos(ArrayList <Moto> listaMotos){
+       
+       float gastos = 0;
+       Scanner scanner = new Scanner(System.in);
+       int y = 100;
+       String matricula, gas;
+       Boolean ok = false;
+       
+       MuestraMotos(listaMotos);
+       
+       do
+       {    
+            System.out.print("\n\nIntroduce la matricula de la moto a añadir gastos: ");
+            matricula = scanner.next();
+            matricula = matricula.toUpperCase();
+
+            for(int i = 0 ; i < listaMotos.size(); i++)
+                if(listaMotos.get(i).getMatricula().equals(matricula))
+                    y = i ;
+       }
+       while(y == 100);
+       
+       do
+       {
+           ok = false;
+           
+           try 
+           {
+                System.out.println("Introduce los gastos a añadir");
+                gas = scanner.next();
+                
+                gastos = Float.parseFloat(gas);
+                
+           } catch (Exception e)
+           {
+               ok = true;
+               System.err.println("Error: Valor incorrecto \n");
+           }
+       }
+       while (ok);
+       
+       listaMotos.get(y).setGastos(gastos);
+      
    }
    
 }

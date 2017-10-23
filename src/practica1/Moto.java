@@ -16,15 +16,17 @@ public class Moto
     private String modelo ;
     private int cilindrada ;
     private float coste ;
+    private float gastos = 0;
     private String matricula;
     
-    public Moto(String ma , String mo, int ci , float co, String matri )
+    public Moto(String ma , String mo, int ci , float co, float ga, String matri )
     {
         
         marca = ma ;
         modelo = mo ;
         cilindrada = ci ;
         coste = co ;
+        gastos += ga;
         matricula = matri ;
         
     }
@@ -40,6 +42,7 @@ public class Moto
               "| "+marca +"  " + modelo +"\n| \n"+
               "| "+cilindrada+" CC"+"\n| \n"+
              "| "+ coste + " €" + "\n|\n"+
+             "| Otros gastos: "+ gastos + " €" + "\n|\n"+
              "| "+ matricula + "\n" +
             " ----------------------------- \n";
         
@@ -71,6 +74,11 @@ public class Moto
         matricula = matri ;
     }
     
+    public void setGastos(float ga)
+    {
+        gastos += ga;
+    }
+    
     // getters
     
     public String getMarca()
@@ -92,7 +100,10 @@ public class Moto
     }
     public String getMatricula()
     {
-        return matricula ;
-        
+        return matricula ; 
+    }
+    public float getGastos()
+    {
+        return gastos;
     }
 }
