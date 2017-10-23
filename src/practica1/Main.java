@@ -16,7 +16,6 @@ import java.util.Scanner;
  */
 public class Main {
 
-     static float precio_max = 6000 ;
     
     public static void main(String[] args) 
     {
@@ -32,6 +31,29 @@ public class Main {
         listaSocios = InstanciaSocios(listaMotos);
         listaCesiones = new ArrayList<>();
         
+        float precio_max = 0;
+        String precio;
+        Boolean ok = false;
+        
+        do{
+            
+            try
+            {
+                ok = false;
+
+                System.out.println("Introduce el valor límite de las motas por socio \n");
+                precio = scanner.next();
+                
+                precio_max = Float.parseFloat(precio);
+            }
+            catch(Exception e)
+            {
+                System.err.println("Error: Valor inválido \n");
+                ok = true;
+            }
+
+        }
+        while (ok);
         while(true)
         {
         
@@ -48,12 +70,12 @@ public class Main {
                     break;
                 case "2" : // Registrar nueva moto
 
-                    listaMotos.add(RegistroMoto(listaSocios));
+                    listaMotos.add(RegistroMoto(listaSocios, precio_max));
 
                     break;                
                 case "3" : // Registrar cesión
                    
-                    listaCesiones.add(RegistroCesion(listaSocios));
+                    listaCesiones.add(RegistroCesion(listaSocios, precio_max));
                       
                     break;
                  case "4" : // Lista de miembros con motos
@@ -204,7 +226,7 @@ public class Main {
    }
     
     
-   public static Moto RegistroMoto(ArrayList<Socio> listaSocios)
+   public static Moto RegistroMoto(ArrayList<Socio> listaSocios, float precio_max)
    {
        Moto m = new Moto() ;
        String cad;
@@ -296,7 +318,7 @@ public class Main {
        
        return m ;
    }
-   public static Cesion RegistroCesion(ArrayList<Socio> listaSocios)
+   public static Cesion RegistroCesion(ArrayList<Socio> listaSocios, float precio_max)
    {
        Cesion c ;
        int id1 = 1000, id2 = 1000 ;
