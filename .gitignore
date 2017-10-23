@@ -1,0 +1,13 @@
+
+*.class
+*.jar
+*.mf
+*.xml
+build/classes/_netbeans_update_resources(1)
+*.properties
+build/classes/_netbeans_automatic_build(1)
+build/classes/_netbeans_automatic_build
+*.pdf
+build/classes/_netbeans_update_resources
+build/classes/.netbeans_update_resources
+build/classes/.netbeans_automatic_build
