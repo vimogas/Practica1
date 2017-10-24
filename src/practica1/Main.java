@@ -102,8 +102,13 @@ public class Main {
                      
                      EliminaSocio(listaSocios, listaCesiones, precio_max);                     
                     
-                     break;                     
-                 case "9" : // Salir del programa
+                     break;  
+                 case "9" : // Mostrar miembros con mas motos
+                     
+                     MuestraMayor(listaSocios);
+                     
+                    break;                   
+                 case "10" : // Salir del programa
                      
                      crearFichero(listaSocios,listaCesiones);
                      System.exit(0);
@@ -214,7 +219,8 @@ public class Main {
                          "   6. Mostrar las cesiones realizadas \n"+
                          "   7. Incrementar otros gastos de una motocicleta \n"+
                          "   8. Elimina un socio \n"+
-                         "   9. Salir del programa \n");
+                         "   9. Mostrar miembro/s con mas motos \n"+	
+                         "   10. Salir del programa \n");
         
         System.out.print("Opcion: ");
         
@@ -606,6 +612,28 @@ public class Main {
         //Se elimina el socio
 	   
         listaSocios.remove(x);
-   }
+    }
+    public static void MuestraMayor (ArrayList<Socio> listaSocios)
+    {
+        
+        Socio mayor;
+        int max = -1;
+        for(Socio s : listaSocios)
+        {
+            if(s.getNumMotos() > max)
+            {   
+                max = s.getNumMotos();
+                mayor = s;
+            }
+        }
+        for(Socio s : listaSocios)
+        {
+            if(s.getNumMotos() == max)
+            {   
+                System.out.print(s.toString());
+                MuestraMotos(s.getMotos());
+            }
+        }
+    }
    
 }
