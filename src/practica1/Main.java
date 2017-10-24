@@ -97,8 +97,13 @@ public class Main {
                      
                      IncrementaGastos(listaMotos);
                      
-                    break; 
-                 case "8" : // Salir del programa
+                    break;
+                 case "8" : // Eliminar miembro
+                     
+                     EliminaSocio(listaSocios, listaCesiones, precio_max);                     
+                    
+                     break;                     
+                 case "9" : // Salir del programa
                      
                      crearFichero(listaSocios,listaCesiones);
                      System.exit(0);
@@ -208,7 +213,8 @@ public class Main {
                          "   5. Listar todas las motos \n"+
                          "   6. Mostrar las cesiones realizadas \n"+
                          "   7. Incrementar otros gastos de una motocicleta \n"+
-                         "   8. Salir del programa \n");
+                         "   8. Elimina un socio \n"+
+                         "   9. Salir del programa \n");
         
         System.out.print("Opcion: ");
         
@@ -501,6 +507,105 @@ public class Main {
        
        listaMotos.get(y).setGastos(gastos);
       
+   }
+   
+   public static void EliminaSocio(ArrayList<Socio> listaSocios, ArrayList<Cesion> listaCesiones, float precio_max)
+   {
+       Cesion c;
+       int id1 = 1000, id2 = 1000 ;
+       int x = 100, y = 100 , z = 100  ;
+       Boolean ok = false;
+       String matricula, cad ;
+       Scanner scanner = new Scanner(System.in);
+       
+       //Obtenemos el socio que deseamos eliminar
+       
+       System.out.print("Elimina un miembro... \n");
+       MuestraSocios(listaSocios,3);
+       do
+       {
+            try
+            {
+               System.out.print("Introduce id del socio que desea abandonar la asociacion: ");
+               
+               cad = scanner.next();
+               id1 = Integer.parseInt(cad);
+            }
+            catch(Exception e)
+            {
+                System.err.println("Entrada incorrecta");
+            }
+        }  
+        while(id1 > listaSocios.size());
+       
+        // Buscamos el socio dentro de listaSocios
+        for(int i = 0 ; i < listaSocios.size();i++)
+            if(listaSocios.get(i).getID() == id1)
+                x = i ;
+       
+        // Obtenemos la moto del socio que cede
+        
+        for(int k = 0 ; k <= listaSocios.get(x).getNumMotos(); k++)
+        {  
+            MuestraMotos(listaSocios.get(x).getMotos());
+        
+        
+            do
+            {    
+                System.out.print("\n\nIntroduce la matricula de la moto a ceder: ");
+                matricula = scanner.next();
+                matricula = matricula.toUpperCase();
+
+                for(int i = 0 ; i < listaSocios.get(x).getMotos().size(); i++)
+                    if(listaSocios.get(x).getMotos().get(i).getMatricula().equals(matricula))
+                        y = i ;
+            }
+            while(y == 100);
+       
+            // Obtenemos el socio que recibe   
+            do
+            {
+                ok = false;
+                MuestraSocios(listaSocios,1);
+                do
+                {
+                    try
+                    {
+                        System.out.print("Introduce id del socio que recibe la moto: ");
+                        cad = scanner.next();
+                        id2 = Integer.parseInt(cad);
+                    }
+                    catch(Exception e)
+                    {
+                        System.err.println("Entrada Incorrecta");
+                    }
+                }
+                while(id2 > listaSocios.size());
+
+                for(int j = 0 ; j < listaSocios.size();j++)
+                    if(listaSocios.get(j).getID() == id2)
+                        z = j ;
+
+                if((listaSocios.get(z).getImporte()+ listaSocios.get(x).getMotos().get(y).getCoste()+ listaSocios.get(x).getMotos().get(y).getGastos()) > precio_max)
+                {
+                    ok = true;
+                    System.err.println("Error: El socio excede el coste");
+                }
+            }
+            while(ok);
+
+            // Se crea la cesion
+
+            c = new Cesion(listaSocios.get(x),listaSocios.get(z),listaSocios.get(x).getMotos().get(y));
+            
+            listaSocios.get(z).setMoto(listaSocios.get(x).getMotos().get(y));
+            listaSocios.get(x).removeMoto(y);
+
+            listaCesiones.add(c);
+        }
+        //Se elimina el socio
+	   
+        listaSocios.remove(x);
    }
    
 }
